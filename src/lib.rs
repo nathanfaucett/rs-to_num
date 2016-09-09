@@ -12,32 +12,33 @@ impl ToNum for str {
 
     fn to_num_radix(&self, radix: usize) -> usize {
         if radix == 0 {
-            return 0;
-        }
+            0
+        } else {
+            let mut num = 0;
 
-        let mut num = 0;
-        for c in self.chars() {
-            let digit;
+            for c in self.chars() {
+                let digit;
 
-            if c >= '0' && c <= '9' {
-                digit = c as usize - '0' as usize
-            } else if c >= 'A' && c <= 'Z' {
-                digit = c as usize - 'A' as usize + 10
-            } else if c >= 'a' && c <= 'z' {
-                digit = c as usize - 'a' as usize + 10
-            } else {
-                break;
+                if c >= '0' && c <= '9' {
+                    digit = c as usize - '0' as usize
+                } else if c >= 'A' && c <= 'Z' {
+                    digit = c as usize - 'A' as usize + 10
+                } else if c >= 'a' && c <= 'z' {
+                    digit = c as usize - 'a' as usize + 10
+                } else {
+                    break;
+                }
+
+                if digit >= radix {
+                    break;
+                }
+
+                num *= radix;
+                num += digit;
             }
 
-            if digit >= radix {
-                break;
-            }
-
-            num *= radix;
-            num += digit;
+            num
         }
-
-        num
     }
 
     fn to_num_radix_signed(&self, radix: usize) -> isize {
